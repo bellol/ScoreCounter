@@ -1,15 +1,14 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
 
 
     </style>
 
-    <style name="CounterButton" parent="android:Widget.Button">
+    <style name="CounterButton" parent="Base.TextAppearance.AppCompat.Widget.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_margin">8dp</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20sp</item>

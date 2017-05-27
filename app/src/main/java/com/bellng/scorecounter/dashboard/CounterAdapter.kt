@@ -10,6 +10,7 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.bellng.scorecounter.R
+import com.bellng.scorecounter.model.Counter
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.view.detaches
 import io.reactivex.Observable
@@ -18,24 +19,21 @@ import io.reactivex.subjects.PublishSubject
 /**
  * Created by Bell on 27-May-17.
  */
-class CounterAdapter(var counterList: List<Counter> = ArrayList()) : RecyclerView.Adapter<CounterAdapter.ViewHolder>() {
+class CounterAdapter(counterList: List<Counter> = ArrayList()) : RecyclerView.Adapter<CounterAdapter.ViewHolder>() {
 
     val plusSubject: PublishSubject<Int> = PublishSubject.create<Int>()
     val minusSubject: PublishSubject<Int> = PublishSubject.create<Int>()
+
+    var counterList = counterList
+        set(value) {
+            field = value
+        }
 
     fun onPlusClicked(): Observable<Int> = plusSubject
 
     fun onMinusClicked(): Observable<Int> = minusSubject
 
     override fun getItemCount() = counterList.size
-
-    fun update(pair: Pair<Int, List<Counter>>) {
-        counterList = pair.second
-        when (pair.first) {
-            -1 -> notifyDataSetChanged()
-            else -> notifyItemChanged(pair.first)
-        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater

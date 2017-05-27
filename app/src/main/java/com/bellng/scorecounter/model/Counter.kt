@@ -1,4 +1,4 @@
-package com.bellng.scorecounter.dashboard
+package com.bellng.scorecounter.model
 
 /**
  * Created by Bell on 27-May-17.

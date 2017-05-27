@@ -1,10 +1,14 @@
 package com.bellng.scorecounter.dashboard
 
-import android.arch.lifecycle.LifecycleActivity
 import android.arch.lifecycle.ViewModelProviders
+import android.os.Bundle
+import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SimpleItemAnimator
+import android.view.Menu
+import android.view.MenuItem
 import butterknife.BindView
 import com.bellng.scorecounter.R
 import io.reactivex.disposables.CompositeDisposable
@@ -14,17 +18,18 @@ import io.reactivex.disposables.CompositeDisposable
  * Created by Bell on 24-May-17.
  */
 
-class DashboardActivity : LifecycleActivity() {
+class DashboardActivity : AppCompatActivity() {
 
     @BindView(R.id.recycler_view) lateinit var recyclerView: RecyclerView
+
     private val viewModel by lazy { ViewModelProviders.of(this).get(DashboardViewModel::class.java) }
-    private val compositeDisposable = CompositeDisposable()
+    private val disposables = CompositeDisposable()
 
-    var adapter = CounterAdapter()
+    private var adapter = CounterAdapter()
 
-    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.bellng.scorecounter.R.layout.activity_main)
+        setContentView(R.layout.activity_main)
         butterknife.ButterKnife.bind(this)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -32,20 +37,70 @@ class DashboardActivity : LifecycleActivity() {
         recyclerView.adapter = adapter
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.dashboard_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.edit_counters -> viewModel.onEditClicked()
+            R.id.reset_all_counters -> viewModel.onResetCounters()
+            else -> return super.onOptionsItemSelected(item)
+        }
+
+        return true
+    }
+
     override fun onResume() {
         super.onResume()
-        compositeDisposable.add(viewModel.counters()
-                .subscribe(adapter::update))
 
-        compositeDisposable.add(adapter.onPlusClicked()
-                .subscribe(viewModel::incrementCounter))
+        disposables.add(viewModel.counterListChanges()
+                .subscribe {
+                    adapter.counterList = it
+                    recyclerView.adapter = adapter
+                })
 
-        compositeDisposable.add(adapter.onMinusClicked()
-                .subscribe(viewModel::decrementCounter))
+        disposables.add(viewModel.countChanges()
+                .subscribe {
+                    adapter.counterList = it.first
+                    adapter.notifyItemChanged(it.second)
+                })
+
+        disposables.add(viewModel.showEditScreen()
+                .subscribe { showEditScreen() })
+
+        disposables.add(viewModel.showResetDialog()
+                .subscribe { showResetDialog() })
+
+        disposables.add(adapter.onPlusClicked()
+                .subscribe(viewModel::onIncrementCounter))
+
+        disposables.add(adapter.onMinusClicked()
+                .subscribe(viewModel::onDecrementCounter))
     }
 
     override fun onPause() {
         super.onPause()
-        compositeDisposable.clear()
+        disposables.clear()
+    }
+
+    private fun showEditScreen() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun showResetDialog() {
+        AlertDialog.Builder(this)
+                .setMessage("Reset all counters?")
+                .setPositiveButton("Reset") { dialog, _ ->
+                    viewModel.onResetCountersDialogAccepted()
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
+
     }
 }
