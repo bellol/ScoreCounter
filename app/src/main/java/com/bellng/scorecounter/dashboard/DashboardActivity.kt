@@ -9,11 +9,9 @@ import android.view.Menu
 import android.view.MenuItem
 import com.bellng.scorecounter.CounterApp
 import com.bellng.scorecounter.R
-import com.bellng.scorecounter.viewmodel.ViewModelFactory
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
-import javax.inject.Inject
 
 
 /**
@@ -22,8 +20,7 @@ import javax.inject.Inject
 
 class DashboardActivity : AppCompatActivity() {
 
-    @Inject lateinit var viewModelFactory: ViewModelFactory
-
+    private val viewModelFactory by lazy { (application as CounterApp).appComponent.getViewModelFactory() }
     private val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(DashboardViewModel::class.java) }
     private val disposables = CompositeDisposable()
 
@@ -31,7 +28,6 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (application as CounterApp).appComponent.inject(this)
         setContentView(R.layout.activity_main)
 
         recycler_view.layoutManager = LinearLayoutManager(this)

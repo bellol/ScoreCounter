@@ -1,7 +1,7 @@
 package com.bellng.scorecounter.di
 
-import com.bellng.scorecounter.dashboard.DashboardActivity
 import com.bellng.scorecounter.dashboard.DashboardViewModel
+import com.bellng.scorecounter.viewmodel.ViewModelFactory
 import dagger.Component
 import javax.inject.Singleton
 
@@ -12,7 +12,8 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(AppModule::class))
 interface AppComponent {
 
+    fun getViewModelFactory(): ViewModelFactory
+
     fun getDashboardViewModel(): DashboardViewModel
 
-    fun inject(dashboardActivity: DashboardActivity)
 }

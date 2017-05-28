@@ -18,12 +18,10 @@ import kotlinx.android.synthetic.main.counter_layout.view.*
 /**
  * Created by Bell on 27-May-17.
  */
-class CounterAdapter(counterList: List<Counter> = ArrayList()) : RecyclerView.Adapter<CounterAdapter.ViewHolder>() {
+class CounterAdapter(var counterList: List<Counter> = ArrayList()) : RecyclerView.Adapter<CounterAdapter.ViewHolder>() {
 
     val plusSubject: PublishSubject<Int> = PublishSubject.create<Int>()
     val minusSubject: PublishSubject<Int> = PublishSubject.create<Int>()
-
-    var counterList = counterList
 
     fun onPlusClicked(): Observable<Int> = plusSubject
 

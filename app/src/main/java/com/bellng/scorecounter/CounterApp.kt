@@ -2,6 +2,7 @@ package com.bellng.scorecounter
 
 import android.app.Application
 import com.bellng.scorecounter.di.AppComponent
+import com.bellng.scorecounter.di.AppModule
 import com.bellng.scorecounter.di.DaggerAppComponent
 
 /**
@@ -14,6 +15,7 @@ class CounterApp : Application() {
     override fun onCreate() {
         super.onCreate()
         appComponent = DaggerAppComponent.builder()
+                .appModule(AppModule(this))
                 .build()
     }
 }

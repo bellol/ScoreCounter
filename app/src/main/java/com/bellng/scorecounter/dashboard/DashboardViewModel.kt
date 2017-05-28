@@ -4,51 +4,34 @@ import android.arch.lifecycle.ViewModel
 import com.bellng.scorecounter.model.Counter
 import com.bellng.scorecounter.model.CounterModel
 import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import javax.inject.Inject
 
 /**
  * Created by Bell on 27-May-17.
  */
 class DashboardViewModel(val counterModel: CounterModel) : ViewModel() {
 
-    private val countChange = PublishSubject.create<Pair<List<Counter>, Int>>()
-    private val counterList = BehaviorSubject.create<List<Counter>>()
     private val showResetDialog = PublishSubject.create<Unit>()
     private val showEditScreen = PublishSubject.create<Unit>()
 
-    private var counters: MutableList<Counter> = ArrayList()
+    fun countChanges(): Observable<Pair<List<Counter>, Int>> = counterModel.countChanges()
 
-    init {
-        counters.add(Counter())
-        counters.add(Counter(colourString = "#FF4081"))
-        counters.add(Counter(colourString = "#303F9F"))
-
-        counterList.onNext(counters)
-    }
-
-    fun countChanges(): Observable<Pair<List<Counter>, Int>> = countChange
-
-    fun counterListChanges(): Observable<List<Counter>> = counterList
+    fun counterListChanges(): Observable<List<Counter>> = counterModel.counterListChanges()
 
     fun showResetDialog(): Observable<Unit> = showResetDialog
 
     fun showEditScreen(): Observable<Unit> = showEditScreen
 
     fun onIncrementCounter(index: Int) {
-        counters[index].count++
-        countChange.onNext(counters.to(index))
+        counterModel.incrementCounter(index)
     }
 
     fun onDecrementCounter(index: Int) {
-        counters[index].count--
-        countChange.onNext(counters.to(index))
+        counterModel.decrementCounter(index)
     }
 
     fun onResetCountersDialogAccepted() {
-        counters.forEach { it.count = 0 }
-        counterList.onNext(counters)
+        counterModel.resetCounters()
     }
 
     fun onEditClicked() {
