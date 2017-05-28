@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.support.v4.util.ArrayMap
 import com.bellng.scorecounter.di.AppComponent
-import com.bellng.scorecounter.dashboard.DashboardViewModel
+import com.bellng.scorecounter.ui.dashboard.DashboardViewModel
 
 /**
  * Created by Bell on 28-May-17.

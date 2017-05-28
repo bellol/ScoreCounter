@@ -1,6 +1,6 @@
 package com.bellng.scorecounter.di
 
-import com.bellng.scorecounter.dashboard.DashboardViewModel
+import com.bellng.scorecounter.ui.dashboard.DashboardViewModel
 import com.bellng.scorecounter.viewmodel.ViewModelFactory
 import dagger.Component
 import javax.inject.Singleton

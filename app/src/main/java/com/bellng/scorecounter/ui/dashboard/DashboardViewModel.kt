@@ -1,4 +1,4 @@
-package com.bellng.scorecounter.dashboard
+package com.bellng.scorecounter.ui.dashboard
 
 import android.arch.lifecycle.ViewModel
 import com.bellng.scorecounter.model.Counter
@@ -22,23 +22,13 @@ class DashboardViewModel(val counterModel: CounterModel) : ViewModel() {
 
     fun showEditScreen(): Observable<Unit> = showEditScreen
 
-    fun onIncrementCounter(index: Int) {
-        counterModel.incrementCounter(index)
-    }
+    fun onIncrementCounter(index: Int) = counterModel.incrementCounter(index)
 
-    fun onDecrementCounter(index: Int) {
-        counterModel.decrementCounter(index)
-    }
+    fun onDecrementCounter(index: Int) = counterModel.decrementCounter(index)
 
-    fun onResetCountersDialogAccepted() {
-        counterModel.resetCounters()
-    }
+    fun onResetCountersDialogAccepted() = counterModel.resetCounters()
 
-    fun onEditClicked() {
-        showEditScreen.onNext(Unit)
-    }
+    fun onEditClicked() = showEditScreen.onNext(Unit)
 
-    fun onResetCounters() {
-        showResetDialog.onNext(Unit)
-    }
+    fun onResetCounters() = showResetDialog.onNext(Unit)
 }

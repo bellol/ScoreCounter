@@ -1,4 +1,4 @@
-package com.bellng.scorecounter.dashboard
+package com.bellng.scorecounter.ui.dashboard
 
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView

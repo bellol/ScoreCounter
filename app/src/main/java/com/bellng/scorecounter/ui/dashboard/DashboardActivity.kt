@@ -1,4 +1,4 @@
-package com.bellng.scorecounter.dashboard
+package com.bellng.scorecounter.ui.dashboard
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle

@@ -12,13 +12,9 @@ class CounterModel(private val counterStorage: CounterStorage) {
     private val countChangeSubject = PublishSubject.create<Pair<List<Counter>, Int>>()
     private val counterListSubject = PublishSubject.create<List<Counter>>()
 
-    fun getCounters(): List<Counter> {
-        return counterStorage.getCounters()
-    }
+    fun getCounters(): List<Counter> = counterStorage.getCounters()
 
-    fun saveCounters(countersList: List<Counter>) {
-        counterStorage.saveCounters(countersList)
-    }
+    fun saveCounters(countersList: List<Counter>) = counterStorage.saveCounters(countersList)
 
     fun countChanges(): Observable<Pair<List<Counter>, Int>> = countChangeSubject
 
