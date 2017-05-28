@@ -1,9 +1,9 @@
-package com.bellng.scorecounter
+package com.bellng.scorecounter.viewmodel
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.support.v4.util.ArrayMap
-import com.bellng.scorecounter.dagger.AppComponent
+import com.bellng.scorecounter.di.AppComponent
 import com.bellng.scorecounter.dashboard.DashboardViewModel
 
 /**

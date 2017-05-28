@@ -1,6 +1,8 @@
-package com.bellng.scorecounter.dagger
+package com.bellng.scorecounter
 
 import android.app.Application
+import com.bellng.scorecounter.di.AppComponent
+import com.bellng.scorecounter.di.DaggerAppComponent
 
 /**
  * Created by Bell on 28-May-17.

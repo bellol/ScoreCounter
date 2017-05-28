@@ -1,4 +1,4 @@
-package com.bellng.scorecounter.dagger
+package com.bellng.scorecounter.di
 
 import com.bellng.scorecounter.dashboard.DashboardActivity
 import com.bellng.scorecounter.dashboard.DashboardViewModel

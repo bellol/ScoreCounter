@@ -1,6 +1,6 @@
-package com.bellng.scorecounter.dagger
+package com.bellng.scorecounter.di
 
-import com.bellng.scorecounter.ViewModelFactory
+import com.bellng.scorecounter.viewmodel.ViewModelFactory
 import com.bellng.scorecounter.dashboard.DashboardViewModel
 import com.bellng.scorecounter.model.CounterModel
 import dagger.Module
@@ -15,7 +15,7 @@ class AppModule {
     @Provides fun provideViewModelFactory(appComponent: AppComponent): ViewModelFactory = ViewModelFactory(appComponent)
 
     @Provides fun provideDashboardViewModel(counterModel: CounterModel) = DashboardViewModel(counterModel)
-    
+
     @Provides fun provideCounterModel() = CounterModel()
 
 }

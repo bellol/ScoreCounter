@@ -7,9 +7,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SimpleItemAnimator
 import android.view.Menu
 import android.view.MenuItem
+import com.bellng.scorecounter.CounterApp
 import com.bellng.scorecounter.R
-import com.bellng.scorecounter.ViewModelFactory
-import com.bellng.scorecounter.dagger.CounterApp
+import com.bellng.scorecounter.viewmodel.ViewModelFactory
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
