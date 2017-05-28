@@ -7,14 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.bellng.scorecounter.R
 import com.bellng.scorecounter.model.Counter
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.view.detaches
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import kotlinx.android.synthetic.main.counter_layout.view.*
 
 /**
  * Created by Bell on 27-May-17.
@@ -25,9 +24,6 @@ class CounterAdapter(counterList: List<Counter> = ArrayList()) : RecyclerView.Ad
     val minusSubject: PublishSubject<Int> = PublishSubject.create<Int>()
 
     var counterList = counterList
-        set(value) {
-            field = value
-        }
 
     fun onPlusClicked(): Observable<Int> = plusSubject
 
@@ -66,12 +62,8 @@ class CounterAdapter(counterList: List<Counter> = ArrayList()) : RecyclerView.Ad
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        @BindView(R.id.count) lateinit var count: TextView
-        @BindView(R.id.plus_button) lateinit var plusButton: Button
-        @BindView(R.id.minus_button) lateinit var minusButton: Button
-
-        init {
-            ButterKnife.bind(this, itemView)
-        }
+        val count: TextView = itemView.count
+        val plusButton: Button = itemView.plus_button
+        val minusButton: TextView = itemView.minus_button
     }
 }

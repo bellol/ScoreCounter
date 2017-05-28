@@ -2,16 +2,18 @@ package com.bellng.scorecounter.dashboard
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SimpleItemAnimator
 import android.view.Menu
 import android.view.MenuItem
-import butterknife.BindView
 import com.bellng.scorecounter.R
+import com.bellng.scorecounter.ViewModelFactory
+import com.bellng.scorecounter.dagger.CounterApp
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.alert
+import javax.inject.Inject
 
 
 /**
@@ -20,21 +22,21 @@ import io.reactivex.disposables.CompositeDisposable
 
 class DashboardActivity : AppCompatActivity() {
 
-    @BindView(R.id.recycler_view) lateinit var recyclerView: RecyclerView
+    @Inject lateinit var viewModelFactory: ViewModelFactory
 
-    private val viewModel by lazy { ViewModelProviders.of(this).get(DashboardViewModel::class.java) }
+    private val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(DashboardViewModel::class.java) }
     private val disposables = CompositeDisposable()
 
     private var adapter = CounterAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (application as CounterApp).appComponent.inject(this)
         setContentView(R.layout.activity_main)
-        butterknife.ButterKnife.bind(this)
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        recyclerView.adapter = adapter
+        recycler_view.layoutManager = LinearLayoutManager(this)
+        (recycler_view.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        recycler_view.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -55,29 +57,30 @@ class DashboardActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        disposables.add(viewModel.counterListChanges()
-                .subscribe {
-                    adapter.counterList = it
-                    recyclerView.adapter = adapter
-                })
-
-        disposables.add(viewModel.countChanges()
-                .subscribe {
-                    adapter.counterList = it.first
-                    adapter.notifyItemChanged(it.second)
-                })
-
-        disposables.add(viewModel.showEditScreen()
-                .subscribe { showEditScreen() })
-
-        disposables.add(viewModel.showResetDialog()
-                .subscribe { showResetDialog() })
-
-        disposables.add(adapter.onPlusClicked()
-                .subscribe(viewModel::onIncrementCounter))
-
-        disposables.add(adapter.onMinusClicked()
-                .subscribe(viewModel::onDecrementCounter))
+        disposables.addAll(
+                viewModel.counterListChanges()
+                        .subscribe {
+                            adapter.counterList = it
+                            recycler_view.adapter = adapter
+                        },
+                viewModel.countChanges()
+                        .subscribe {
+                            adapter.counterList = it.first
+                            adapter.notifyItemChanged(it.second)
+                        },
+                viewModel.showEditScreen()
+                        .subscribe {
+                            showEditScreen()
+                        },
+                viewModel.showResetDialog()
+                        .subscribe {
+                            showResetDialog()
+                        },
+                adapter.onPlusClicked()
+                        .subscribe(viewModel::onIncrementCounter),
+                adapter.onMinusClicked()
+                        .subscribe(viewModel::onDecrementCounter)
+        )
     }
 
     override fun onPause() {
@@ -90,17 +93,9 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun showResetDialog() {
-        AlertDialog.Builder(this)
-                .setMessage("Reset all counters?")
-                .setPositiveButton("Reset") { dialog, _ ->
-                    viewModel.onResetCountersDialogAccepted()
-                    dialog.dismiss()
-                }
-                .setNegativeButton("Cancel") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
-
+        alert("Reset all counters to 0?") {
+            positiveButton("Reset") { viewModel.onResetCountersDialogAccepted() }
+            negativeButton("Cancel") {}
+        }.show()
     }
 }

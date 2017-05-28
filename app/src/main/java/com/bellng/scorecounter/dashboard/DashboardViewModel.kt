@@ -2,14 +2,17 @@ package com.bellng.scorecounter.dashboard
 
 import android.arch.lifecycle.ViewModel
 import com.bellng.scorecounter.model.Counter
+import com.bellng.scorecounter.model.CounterModel
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import javax.inject.Inject
 
 /**
  * Created by Bell on 27-May-17.
  */
-class DashboardViewModel : ViewModel() {
+class DashboardViewModel(val counterModel: CounterModel) : ViewModel() {
+
     private val countChange = PublishSubject.create<Pair<List<Counter>, Int>>()
     private val counterList = BehaviorSubject.create<List<Counter>>()
     private val showResetDialog = PublishSubject.create<Unit>()
