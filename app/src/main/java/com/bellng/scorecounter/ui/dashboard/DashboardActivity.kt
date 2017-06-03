@@ -1,6 +1,7 @@
 package com.bellng.scorecounter.ui.dashboard
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -9,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.bellng.scorecounter.CounterApp
 import com.bellng.scorecounter.R
+import com.bellng.scorecounter.ui.edit.EditActivity
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
@@ -84,9 +86,7 @@ class DashboardActivity : AppCompatActivity() {
         disposables.clear()
     }
 
-    private fun showEditScreen() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    private fun showEditScreen() = startActivity(Intent(this, EditActivity::class.java))
 
     private fun showResetDialog() {
         alert("Reset all counters to 0?") {

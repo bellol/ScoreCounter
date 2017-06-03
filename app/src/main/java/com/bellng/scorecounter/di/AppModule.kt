@@ -3,7 +3,7 @@ package com.bellng.scorecounter.di
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.bellng.scorecounter.CounterApp
-import com.bellng.scorecounter.CounterStorage
+import com.bellng.scorecounter.model.CounterStorage
 import com.bellng.scorecounter.ui.dashboard.DashboardViewModel
 import com.bellng.scorecounter.model.CounterModel
 import com.bellng.scorecounter.viewmodel.ViewModelFactory

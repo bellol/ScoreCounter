@@ -1,7 +1,6 @@
-package com.bellng.scorecounter
+package com.bellng.scorecounter.model
 
 import android.content.SharedPreferences
-import com.bellng.scorecounter.model.Counter
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types

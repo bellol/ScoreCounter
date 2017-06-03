@@ -1,6 +1,5 @@
 package com.bellng.scorecounter.model
 
-import com.bellng.scorecounter.CounterStorage
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
